@@ -42,6 +42,9 @@ services:
     build: ./backend
     ports:
       - "3001:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
@@ -56,7 +59,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      test: ["CMD", "node", "-qO-", "http://localhost:3000/health"]
       interval: 10s
       timeout: 3s
       retries: 5
