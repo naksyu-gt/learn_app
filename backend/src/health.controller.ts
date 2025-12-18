@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import { DbHealthService } from './db-health.service';
-import { RedisHealthSrvice } from './redis-health.service';
+import { Controller, Get, Inject } from '@nestjs/common';
+import type { DbHealth } from './db-health.interface';
+import type { RedisHealth } from './redis-health.interface';
+import { DB_HEALTH, REDIS_HEALTH } from './tokens';
 
 @Controller('health')
 export class HealthController {
     constructor(
-        private readonly dbHealth: DbHealthService,
-        private readonly redisHealth: RedisHealthSrvice,
+        @Inject(DB_HEALTH) private readonly dbHealth: DbHealth,
+        @Inject(REDIS_HEALTH)private readonly redisHealth: RedisHealth,
     ) {}
 
     @Get()

@@ -1,8 +1,9 @@
-import {Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as mysql from 'mysql2/promise';
+import { DbHealth } from './db-health.interface';
 
 @Injectable()
-export class DbHealthService {
+export class DbHealthService implements DbHealth {
     async isUp(): Promise<boolean> {
         try{
             const conn = await mysql.createConnection({

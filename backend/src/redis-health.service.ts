@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 import Redis from 'ioredis';
 
 @Injectable()
-export class RedisHealthSrvice {
+export class RedisHealthService {
     async isUp(): Promise<boolean>{
         const redis = new Redis({
             host: process.env.REDIS_HOST,
