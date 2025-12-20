@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HealthController } from './health.controller';
-import { DbHealthService } from './db-health.service';
-import { RedisHealthService } from './redis-health.service';
-import { DB_HEALTH, REDIS_HEALTH } from './tokens';
+import { HealthController } from '../health/health.controller';
+import { DbHealthService } from '../health/db-health.service';
+import { RedisHealthService } from '../health/redis-health.service';
+import { DB_HEALTH, REDIS_HEALTH } from '../health/tokens';
 
 @Module({
     imports: [],
