@@ -5,20 +5,21 @@ import { HealthController } from '../health/health.controller';
 import { DbHealthService } from '../health/db-health.service';
 import { RedisHealthService } from '../health/redis-health.service';
 import { DB_HEALTH, REDIS_HEALTH } from '../health/tokens';
+import { UsersController } from '../users/users.controller';
 
 @Module({
     imports: [],
-    controllers: [AppController, HealthController],
+    controllers: [AppController, HealthController, UsersController],
     providers: [
-        AppService, 
+        AppService,
         {
             provide: REDIS_HEALTH,
-            useClass: RedisHealthService
+            useClass: RedisHealthService,
         },
         {
             provide: DB_HEALTH,
-            useClass: DbHealthService
-        }
+            useClass: DbHealthService,
+        },
     ],
 })
 export class AppModule {}
