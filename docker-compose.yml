@@ -1,19 +1,17 @@
 services:
-  mysql:
-    image: mysql:8.0
+  postgres:
+    image: postgres:16-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: app
-      MYSQL_USER: app
-      MYSQL_PASSWORD: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
       TZ: Asia/Tokyo
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql-data:/var/lib/mysql
-      - ./infra/mysql/init:/docker-entrypoint-initdb.d
+      - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      test: ["CMD-SHELL", "pg_isready -U app -d app"]
       interval: 5s
       timeout: 3s
       retries: 20
@@ -46,15 +44,16 @@ services:
       - ./backend:/app
       - /app/node_modules
     environment:
-      DB_HOST: mysql
-      DB_PORT: 3306
+      DATABASE_URL: postgresql://app:app@postgres:5432/app
+      DB_HOST: postgres
+      DB_PORT: 5432
       DB_USER: app
       DB_PASSWORD: app
       DB_NAME: app
       REDIS_HOST: redis
       REDIS_PORT: 6379
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
@@ -77,5 +76,5 @@ services:
       - /app/node_modules
 
 volumes:
-  mysql-data:
+  postgres-data:
   localstack-data:
