@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function UserForm() {
     const [name, setName] = useState('');
     const [pending, setPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -28,8 +30,7 @@ export default function UserForm() {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
             setName('');
-            // 一覧更新のトリガーは page.tsx 側でやる（次ステップ）
-            window.location.reload();
+            router.refresh();
         } catch (e) {
             setError(e instanceof Error ? e.message : 'Unknown error');
         } finally {
