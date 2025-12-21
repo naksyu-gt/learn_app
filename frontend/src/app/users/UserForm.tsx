@@ -27,7 +27,24 @@ export default function UserForm() {
                 body: JSON.stringify({ name: trimmed }),
             });
 
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            if (!res.ok) {
+                const raw = await res.text(); // 1回だけ読む（これが重要）
+                let msg = `HTTP ${res.status}`;
+
+                try {
+                    const data = JSON.parse(raw);
+                    const m = data?.message;
+                    if (typeof m === 'string') msg = m;
+                    else if (Array.isArray(m)) msg = m.join(', ');
+                } catch {
+                    // JSONじゃない時は raw をそのまま出す（空ならHTTP）
+                    if (raw) msg = raw;
+                }
+
+                throw new Error(msg);
+            }
+
+
 
             setName('');
             router.refresh();
