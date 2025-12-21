@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
-      interval: "hourly"
+      interval: "daily"
     open-pull-requests-limit: 5
 
   - package-ecosystem: "npm"
